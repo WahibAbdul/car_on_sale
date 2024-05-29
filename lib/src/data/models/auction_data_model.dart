@@ -2,13 +2,16 @@ import 'package:car_on_sale/src/domain/entities/auction_data.dart';
 
 class AuctionDataModel extends AuctionData {
   const AuctionDataModel({
-    required super.id,
-    required super.make,
-    required super.model,
-    required super.price,
-    required super.uuid,
-    required super.feedback,
-    required super.positiveCustomerFeedback,
+    super.id,
+    super.make,
+    super.model,
+    super.price,
+    super.uuid,
+    super.feedback,
+    super.positiveCustomerFeedback,
+    super.containerName,
+    super.externalId,
+    super.similarity,
   });
 
   factory AuctionDataModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +23,9 @@ class AuctionDataModel extends AuctionData {
       uuid: json['_fk_uuid_auction'],
       feedback: json['feedback'],
       positiveCustomerFeedback: json['positiveCustomerFeedback'],
+      containerName: json['containerName'],
+      externalId: json['externalId'],
+      similarity: json['similarity'],
     );
   }
 
@@ -32,6 +38,9 @@ class AuctionDataModel extends AuctionData {
       'uuid': uuid,
       'feedback': feedback,
       'positiveCustomerFeedback': positiveCustomerFeedback,
+      'similarity': similarity,
+      'containerName': containerName,
+      'externalId': externalId,
     };
   }
 }

@@ -13,7 +13,7 @@ class AuctionInitial extends AuctionState {}
 class AuctionLoading extends AuctionState {}
 
 class AuctionLoaded extends AuctionState {
-  final AuctionData auctionData;
+  final List<AuctionData> auctionData;
 
   const AuctionLoaded(this.auctionData);
 

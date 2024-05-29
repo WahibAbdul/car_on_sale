@@ -30,8 +30,8 @@ class VinInputPageState extends State<VinInputPage> {
             const SizedBox(height: 20),
             BlocConsumer<AuctionBloc, AuctionState>(
               listener: (context, state) {
-                if (state is AuctionLoaded) {
-                  Navigator.of(context).pushNamed('/auctionData', arguments: state.auctionData);
+                if (state is AuctionLoaded && state.auctionData.length == 1) {
+                  Navigator.of(context).pushNamed('/auctionData', arguments: state.auctionData.first);
                 } else if (state is AuctionError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -44,9 +44,32 @@ class VinInputPageState extends State<VinInputPage> {
                 if (state is AuctionLoading) {
                   return const CircularProgressIndicator();
                 }
-                return ElevatedButton(
-                  onPressed: () => _fetchData(context),
-                  child: const Text('Fetch Data'),
+                return Expanded(
+                  child: Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => _fetchData(context),
+                        child: const Text('Fetch Data'),
+                      ),
+                      if (state is AuctionLoaded && state.auctionData.length > 1)
+                        Expanded(
+                          child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              final data = state.auctionData[index];
+                              return ListTile(
+                                title: Text(data.make ?? ''),
+                                subtitle: Text(
+                                  'Model: ${data.model}\nSimilarity: ${data.similarity}',
+                                ),
+                                onTap: () => Navigator.of(context).pushNamed('/auctionData', arguments: data),
+                              );
+                            },
+                            itemCount: state.auctionData.length,
+                            separatorBuilder: (context, index) => const Divider(),
+                          ),
+                        ),
+                    ],
+                  ),
                 );
               },
             ),

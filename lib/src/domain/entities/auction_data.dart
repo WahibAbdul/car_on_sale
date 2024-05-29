@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 
 @immutable
 class AuctionData extends Equatable {
-  final int id;
-  final String make;
-  final String model;
-  final int price;
-  final String uuid;
-  final String feedback;
-  final bool positiveCustomerFeedback;
+  final int? id;
+  final String? make;
+  final String? model;
+  final String? containerName;
+  final int? similarity;
+  final int? price;
+  final String? uuid;
+  final String? externalId;
+  final String? feedback;
+  final bool? positiveCustomerFeedback;
 
   const AuctionData({
     required this.id,
@@ -21,10 +24,13 @@ class AuctionData extends Equatable {
     required this.uuid,
     required this.feedback,
     required this.positiveCustomerFeedback,
+    this.containerName,
+    this.externalId,
+    this.similarity,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         make,
         model,
@@ -32,5 +38,8 @@ class AuctionData extends Equatable {
         uuid,
         feedback,
         positiveCustomerFeedback,
+        containerName,
+        similarity,
+        externalId,
       ];
 }

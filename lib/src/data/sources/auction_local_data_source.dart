@@ -6,18 +6,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuctionLocalDataSource {
   AuctionLocalDataSource();
 
-  Future<void> saveAuctionData(AuctionDataModel auctionData) async {
-    final jsonString = jsonEncode(auctionData.toJson());
+  Future<void> saveAuctionData(List<AuctionDataModel> list) async {
+    final jsonString = jsonEncode(list.map((e) => e.toJson()).toList());
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auctionData', jsonString);
   }
 
-  Future<AuctionDataModel?> getCachedAuctionData() async {
+  Future<List<AuctionDataModel>> getCachedAuctionData() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString('auctionData');
     if (jsonString != null) {
-      return AuctionDataModel.fromJson(jsonDecode(jsonString));
+      final data = jsonDecode(jsonString) as List<Map<String, Object>>;
+      final objs = data.map((e) => AuctionDataModel.fromJson(e)).toList();
+      return objs;
     }
-    return null;
+    return [];
   }
 }
